@@ -35,7 +35,8 @@ export class Board {
                     this.winner = "Вы победили!!!";
                     return this.winner;
                 }
-                return "Победил бот!";
+                this.winner = "Победил бот!";
+                return this.winner;
             }
             //вертикальные линии
             if (this.cells[0][i] !== "" && this.cells[0][i] == this.cells[1][i] && this.cells[1][i] == this.cells[2][i]){
