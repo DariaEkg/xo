@@ -19,13 +19,57 @@ export class Board {
     }
 
     botStep() {
-        for (let y = 0; y < 3; y++) {
+       /* for (let y = 0; y < 3; y++) {
             for (let x = 0; x < 3; x++) {
                 if (this.cells[y][x] == "") {
-                    this.cells.push("o");
+                    this.cells[y][x] = "o";
                     return;
                 }
             }
+        }*/
+            let bestMove = this.minimax(this.cells, true);
+            this.cells[bestMove.y][bestMove.x] = "o";
+    }
+
+    minimax(board, isMaximizing) {
+        let winner = this.calcWinner();
+        if (winner === "o") return { score: 10 };  // бот выиграл
+        if (winner === "x") return { score: -10 }; // игрок выиграл
+        if (winner === "-") return { score: 0 };    // ничья
+
+        let bestMove;
+        if (isMaximizing) {
+            let bestScore = -Infinity;
+            for (let y = 0; y < 3; y++) {
+                for (let x = 0; x < 3; x++) {
+                    if (board[y][x] === "") {
+                        board[y][x] = "o";  // ход бота
+                        let result = this.minimax(board, false);
+                        board[y][x] = "";  // отмена хода
+                        if (result.score > bestScore) {
+                            bestScore = result.score;
+                            bestMove = { x, y };
+                        }
+                    }
+                }
+            }
+            return { score: bestScore, ...bestMove };
+        } else {
+            let bestScore = Infinity;
+            for (let y = 0; y < 3; y++) {
+                for (let x = 0; x < 3; x++) {
+                    if (board[y][x] === "") {
+                        board[y][x] = "x";  // ход игрока
+                        let result = this.minimax(board, true);
+                        board[y][x] = "";  // отмена хода
+                        if (result.score < bestScore) {
+                            bestScore = result.score;
+                            bestMove = { x, y };
+                        }
+                    }
+                }
+            }
+            return { score: bestScore, ...bestMove };
         }
     }
 
@@ -62,12 +106,13 @@ export class Board {
     }
 
     message() {
+        console.log(this.cells);
         return Markup.inlineKeyboard(
             this.cells.map(
                 (row, rowIndex) => {
                     return row.map(
                         (cell, cellIndex) => {
-                            return Markup.button.callback(cell, `${rowIndex}_${cellIndex}`)
+                            return Markup.button.callback(cell || "-", `${rowIndex}_${cellIndex}`)
                         }
                     )
                 }
