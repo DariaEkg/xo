@@ -37,7 +37,7 @@ export class Board {
         if (winner === "x") return { score: -10 }; // игрок выиграл
         if (winner === "-") return { score: 0 };    // ничья
 
-        let bestMove;
+        let bestMove = null;
         if (isMaximizing) {
             let bestScore = -Infinity;
             for (let y = 0; y < 3; y++) {
@@ -101,6 +101,8 @@ export class Board {
             if (this.cells.flat().every(cell => cell !== "")) {
                 this.winner = "-"
             }
+
+            this.winner = null;
 
         }
     }
