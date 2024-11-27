@@ -7,11 +7,17 @@
     "start": "node ./src/index.js",
     "test": "node --test"
   },
+    "scripts": {
+      "ts-migrate": "ts-migrate"
+    }, 
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "dotenv": "^16.4.5",
     "telegraf": "^4.16.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
   }
 }
