@@ -1,5 +1,5 @@
 import {test} from "node:test"
-import { Board } from "../src/board.js"
+import { Board } from "../src_old/board.js"
 import {equal} from "node:assert"
 
 
